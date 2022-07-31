@@ -70,6 +70,58 @@ even the slightest bottleneck. This pipeline is utilised for training on TPUs.
 The codes for converting the .png files to Parquet files can be found [here]
 
 ***
-***
 
- 
+### Data Preprocessing
+Since the quality of Input data is of utter-most importance for any model. We have spent quite some time(~1 week)
+to simply understand it and find the most reliable pre-processing technique.
+***
+The entire experimentation Repository can be found [here]
+***
+Each of them have different preprocessing techniques employed along with code to split and save the model.
+The readme file over there explains them in detail.
+To find the performance of the model on different preprocessing techniques we trained it separately for every
+one of them.
+
+#### Things we experimented with :-
+* Clipping extreme peaks[max suppression] in the data to highlight more subtle feauture
+* Testing the amount of zero suppression which suits the best.
+For max suppression we clipped the data channel wise for every singe image using their standard deviations.
+For zero suppression we globally clipped the min value upto a certain range,
+
+#### Results
+* For Zero suppression we could not come to any conclusion as all the models performed equally well hence we sticked what was originally chosen; 0.001
+* For Max Suppression we indeed got interesting results:- </br>
+
+| 50 | 100 | 200 | 500 | 
+| --- | --- | --- | --- |
+|0.8124 | 0.8085 | 0.8068 |0.8047 |
+
+*The metric reported is AUC for different Standard Deviations* 
+
+
+***
+The Repository with the final preprocessing codes can be found [here] 
+***
+The entire WandB logs can be found [here](https://wandb.ai/dc250601/Clipped%20dataset%20Finder_try2?workspace=user-dc250601) for further inspections
+
+### Models
+#### Visual Image Transformers(ViT)
+*The code and results of this model is not added as no stable version of it could be defined
+and the defined models faced the problem of extreme gradient explosions and model overfitting, more experiments
+will be done later.* 
+
+### Swin Transformer
+Although ViTs were very unstable and were closed to unusable Swin was quite effective in our case.
+We initially obtained an AUC score of 0.7847
+A much higher score was later obtained(0.8082) from the above model we trained will some more data and with better data Augmentation
+as described in the previous section.
+The WandB logs of the initial run can be found [here](https://wandb.ai/dc250601/kaggle_Auc_fixed/runs/2m7wv9u6/overview?workspace=user-dc250601)
+The code can be found in the foullowing repository
+
+### CoAt Nets 
+CoAt Nets are bulit by simply replacing bultiple stages of the vanilla ViT with Mobinet blocks. But since the initial layers are Convolution 
+layers the model can have some inbuilt bias of Conv layers  and also posses the flexibility of ViTs as it has both of the layers present in it.
+The CoAt Nets when trained shattered the previously set record by the ResNet-15 by quite some margin.
+The CoAt Nets gave an AUC score of 
+
+
