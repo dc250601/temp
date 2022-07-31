@@ -52,5 +52,4 @@ up and running as early as possible this was chosen.</br>
 
 The pipe-line is shown below
 
-![nfs](./images/pipeline 1.png)
-images/pipeline 1.png
+![nfs](./images/pipeline1.png)
