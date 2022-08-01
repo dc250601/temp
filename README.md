@@ -152,4 +152,16 @@ This model is also a popular model. This model was trained during the pre-gsoc p
 is also provided
 ***
 
-
+### <ins>Hybrid Swin</ins>
+Although the CoAt net architecture seems the highest performing model for our task still we have a problem associated with it. ViT like backbones are 
+very unstable for our use case. Although all above models are Hybrids still they contain ViTs as their backbone. The Hybrid nature totally offsets the adverse
+effects of ViTs when we use small sized CoAt-Nets(CoAt-0) but once we start scaling them we again start facing problems of gradient explosion and other adverse 
+effects similar to what we saw in ViTs.
+The fact is evident when we see the CoAt-1 model training [graphs](https://wandb.ai/dc250601/Coat1?workspace=user-dc250601)
+The metrics drops futher when CoAt-2 is employed. This shows that CoAts are not scalable in our case.
+This led us to completely remove the ViT blocks from the CoAts and replace them with Swin blocks instead.
+This lead to a much more stabe training as can be seen with the follwing [graph](https://wandb.ai/dc250601/Ensemble/runs/21zil3cn?workspace=user-dc250601)
+The training of the above mode is extremely stable and is done in stages. All the codes related to the above custom model along with the training script can
+***
+be found in the following [repository]
+***
